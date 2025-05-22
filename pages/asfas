@@ -1,0 +1,9 @@
+  let res = await fetch('http://localhost:3000/api/singup', {
+      method: 'POST',
+      headers:{
+       'Content-Type' : 'application/json',
+      },
+       body: JSON.stringify(data),
+      })
+      let response = await res.json()
+      console.log(response)
