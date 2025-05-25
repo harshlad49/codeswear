@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from 'react'
 import Slider from "react-slick";
-import image from "./image";
+import image from "../lib/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
