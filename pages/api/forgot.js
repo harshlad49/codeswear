@@ -1,13 +1,15 @@
 import connectDb from "@/middleware/mongoose";
 import Forgot from "@/models/Forgot";
+import User from "@/models/User";
 export default async function handler(req , res){
 
-  
- let token = `sdfsdfsdfsd3454534`
+  if(req.body.sendMail) {
+ let token = process.env.JWT_email
  let forgot = new Forgot({
     email: req.body.email,
     token: token
  })
+
  let email = `We have sent you this email in response to your request to reset your password on Codeswear.com 
 
 
@@ -23,7 +25,9 @@ export default async function handler(req , res){
 
   
   <br/><br/>`
- 
-  res.status(200).json({name: 'hfghfg'})
-  console.log(router.query)
+}else{
+   //Reset User Password
+}
+  res.status(200).json({success: true})
+  
 }

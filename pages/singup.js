@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from "next/router";
 import {  useEffect } from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const singup = () => {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
@@ -30,10 +32,18 @@ const singup = () => {
     
    
   if (json.success){
-
-
-      
+           toast.success('Signup successful!', {
+      position: "top-center",
+      autoClose: 3000,
+    });
+    setTimeout(() => {
       router.push('/login')
+    }, 3000);
+  }else {
+     toast.error(json.error || 'Signup failed. Please try again.', {
+          position: "top-center",
+          autoClose: 3000,
+        });
   }
   }
   const handleChange = (e)=>{
@@ -41,7 +51,7 @@ const singup = () => {
 }
   return (
         <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
-
+         <ToastContainer />
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img className="mx-auto h-20 w-auto " src="favicon.ico " alt="Your Company" />
             <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign Up to your account</h2>

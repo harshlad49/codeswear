@@ -1,3 +1,8 @@
+import pincodes from '../../pincodes.json'
+
+
 export default function handler(red ,res ){
-  res.status(200).json ([394650 , 30006])
+
+ res.status(200).json(pincodes)
 }
+

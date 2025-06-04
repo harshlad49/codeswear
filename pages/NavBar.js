@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AiFillCloseCircle, AiFillMinusCircle, AiOutlineShoppingCart, AiFillPlusCircle } from 'react-icons/ai'
@@ -16,21 +16,32 @@ const NavBar = ({
   subTotal = 0
 }) => {
   const [dropdown, setDropdown] = useState(false)
+  const [sidebar, setSidebar] = useState(false);
   const router = useRouter()
   const ref = useRef()
-
+   useEffect(()=>{
+    Object.keys(cart).length !== 0 && setSidebar(true)
+    let exempterd = ['/checkout', '/order', '/orders']
+    if(exempterd.includes(router.pathname)){
+      setSidebar(false)
+    }  else {
+    setSidebar(false) 
+  }
+   }, [router.pathname])
   const toggleCard = () => {
-    if (ref.current.classList.contains('translate-x-full')) {
-      ref.current.classList.remove('translate-x-full')
-      ref.current.classList.add('translate-x-0')
-    } else if (!ref.current.classList.contains('translate-x-full')) {
-      ref.current.classList.remove('translate-x-0')
-      ref.current.classList.add('translate-x-full')
-    }
+    // if (ref.current.classList.contains('translate-x-full')) {
+    //   ref.current.classList.remove('translate-x-full')
+    //   ref.current.classList.add('translate-x-0')
+    // } else if (!ref.current.classList.contains('translate-x-full')) {
+    //   ref.current.classList.remove('translate-x-0')
+    //   ref.current.classList.add('translate-x-full')
+    // }
+    setSidebar(!sidebar)
   }
 
   return (
-    <div className='flex flex-col md:flex-row md:justify-start items-center justify-center py-2 shadow-md sticky top-0 z-10 bg-white'>
+    <>
+    <div className={`flex flex-col md:flex-row md:justify-start items-center justify-center py-2 shadow-md sticky top-0 z-10 bg-white${!sidebar && 'overflow-hidden'}`}>
       <div className='logo mx-5 mr-auto md:mr-5'>
         <Link href={'/'}>
           <Image src="/logo.png" alt="logo" height={500} width={270} />
@@ -47,9 +58,10 @@ const NavBar = ({
       </div>
 
       <div className='card absolute right-10 pb-5 text-4 md:right-16 cursor-pointer'>
-        <span onMouseOver={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}>
+        <span onMouseOver={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)}
+        >
           {dropdown && (
-            <div onMouseOver={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)} className="absolute font-semibold top-14 px-3 pb-2 rounded-md right-5 w-28 bg-white">
+            <div onMouseOver={() => setDropdown(true)} onMouseLeave={() => setDropdown(false)} className="absolute font-semibold top-14 px-3 pb-2 rounded-md right-12.5 w-28 bg-white">
               <ul>
                 <a href={'/myaccount'}><li className='py-1 text-sm hover:text-pink-700'>My Account</li></a>
                 <a href={'/orders'}><li className='py-1 text-sm hover:text-pink-700'>Orders</li></a>
@@ -72,15 +84,14 @@ const NavBar = ({
       </div>
 
       <div className='card absolute right-4 md:right-6 md:top-1 cursor-pointer'>
-        <AiOutlineShoppingCart onClick={toggleCard} className='absolute md:top-1 text-xl md:pb-1.5 bottom-[0.5px] right-0.5 md:text-4xl hover:text-pink-600' />
+        <AiOutlineShoppingCart onClick={toggleCard} className='absolute md:top-1 text-xl md:pb-1 bottom-[0.5px] right-0.5 md:text-4xl hover:text-pink-600' />
       </div>
 
       <div
         ref={ref}
-        className={`w-72 h-[100vh] overflow-y-auto sidecard absolute top-0 right-0 bg-pink-100 py-10 px-8
-          transform transition-transform
-          ${Object.keys(cart).length !== 0 ? 'translate-x-0' : 'translate-x-full'}`}
-      >
+        className={`fixed top-0 right-0 w-72 h-screen overflow-y-auto bg-pink-100 py-10 px-8 z-40 transition-transform duration-300 ease-in-out ${
+      sidebar ? 'translate-x-0' : 'translate-x-full'
+    }`}>
         <h2 className='font-bold text-xl text-center'>Shopping Card</h2>
         <span onClick={toggleCard} className='absolute top-5 right-2 cursor-pointer text-2xl text-pink-500'>
           <AiFillCloseCircle />
@@ -130,6 +141,7 @@ const NavBar = ({
         </div>
       </div>
     </div>
+    </>
   )
 }
 

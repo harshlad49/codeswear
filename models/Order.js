@@ -1,13 +1,18 @@
+
 const { Timestamp } = require('mongodb');
 const mongoose = require('mongoose');
 
  const OrderSchema = new mongoose.Schema({
 email: {type: String, require: true},
-products:[
+orderId: {type: String, require: true},
+paymentsId:{type: String, require: true},
+productsInfo:[
   {
-    productId: {type: String},
-    quantity: {type: Number, default: 1}
-
+    productName: {type: String},
+    size:{type: String},
+    variant:{type: String},
+    quantity: {type: Number, default: 1},
+    price:{type: Number}
   }],
   address: {type: String, require: true},
   amount: {type: Number, require: true},

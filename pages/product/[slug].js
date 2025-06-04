@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,16 +8,16 @@ import { ImPower } from 'react-icons/im'
 import { AiOutlineShoppingCart} from 'react-icons/ai'
 const Post = ({ addToCart, product, variants, buyNow }) => {
 
-  // console.log(product, variants)
   const router = useRouter()
   const { slug } = router.query
   const [pin, setPin] = useState()
   const [service, setService] = useState()
-
+  const [color, setColor] = useState(product.color)
+  const [size, setSize] = useState(product.size)
   const checkServiceability = async () => {
     let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`)
     let pinJson = await pins.json()
-    if (pinJson.includes(parseInt(pin))) {
+    if (Object.keys(pinJson).includes((pin))) {
       setService(true)
       toast.success('Your pin is serviceable', {
         position: "bottom-center",
@@ -32,7 +32,7 @@ const Post = ({ addToCart, product, variants, buyNow }) => {
     }
     else {
       setService(false)
-      toast.error('Sorry! pincode not serviceable', {
+      toast.error('Sorry! Pincode Not Serviceable', {
         position: "bottom-center",
         autoClose: 1000,
         hideProgressBar: true,
@@ -48,15 +48,19 @@ const Post = ({ addToCart, product, variants, buyNow }) => {
   //   addToCart(slug, 1, product.price, product.title , size, product.color)
   //   router.push('/checkout')
   // }
+  useEffect(() => {
+        setColor(product.color)
+        setSize(product.size)
+  },[router.query])
   const onChangepin = (e) => {
     setPin(e.target.value)
   }
-  const [color, setColor] = useState(product.color)
-  const [size, setSize] = useState(product.size)
+
 
   const refreshVarant = (newsize, newcolor)=>{
     let url =`${process.env.NEXT_PUBLIC_HOST}/product/${variants[newcolor][newsize]['slug']}`
-    window.location = url;
+    // window.location = url;
+    router.push(url)
   }
 
   return <>
