@@ -35,8 +35,9 @@ export default function App({ Component, pageProps }) {
     
  
   const token = localStorage.getItem('token')
+  const email = localStorage.getItem('email')
   if(token){
-     setUser({value: token})
+     setUser({value: token, email })
      setKey(Math.random())
   }
 }, [router.query])

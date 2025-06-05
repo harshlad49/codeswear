@@ -8,11 +8,14 @@ export default async function handler(req, res) {
   if(req.method == 'POST') {
  let product, sumTotal=0;
  let cart = req.body.cart;
+
 for (let item in cart) {
     sumTotal += cart[item].price * cart[item].qty;
     product = await Product.findOne({ slug: item });
+    if(product.availableQty < cart[item].qty){
+    res.status(200).json({ success: false, error: "some items in your card are out of stock. Please try again" });}
     if (product.price != cart[item].price) {
-        res.status(200).json({ success: false, error: "The price..." });
+        res.status(200).json({ success: false, error: "The price of some item in your card have changed.Please try again" });
         return;
     }
 }

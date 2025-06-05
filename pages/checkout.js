@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillMinusCircle, AiFillPlusCircle } from 'react-icons/ai';
 import { FaLock } from 'react-icons/fa';
 import Head from 'next/head';
@@ -18,7 +18,12 @@ const Checkout = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
   const [address , setAddress] = useState('');
   const [city , setCity] = useState('');
   const [disable, setDisable] =useState(true);
-  
+  useEffect(() => {
+  const storedEmail = localStorage.getItem('email');
+  if (storedEmail) {
+    setEmail(storedEmail);
+  }
+}, []);
 
   const handleChange = async (e)=>{
     
@@ -225,6 +230,7 @@ const orderDetails = {
             <input
              onChange={handleChange}
              value={email}
+             readOnly
               type='email'
               id='email'
               name='email'
@@ -271,7 +277,7 @@ const orderDetails = {
         </div>
         <div className='w-1/2 mb-5'>
           <div className='relative mb-6 px-2'>
-            <label htmlFor='pincode' className='leading-7 text-sm text-gray-600 autofill'>
+            <label htmlFor='pincode' className='leading-7 text-sm text-gray-600  autoComplete="off"'>
               Pincode
             </label>
             <input

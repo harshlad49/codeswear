@@ -47,6 +47,7 @@ const Login = () => {
         theme: "light",
       })
       localStorage.setItem('token', json.token)
+       localStorage.setItem('email', creadentials.email);
       setTimeout(() => {
         router.push('/')
       }, 1600) // wait for toast
