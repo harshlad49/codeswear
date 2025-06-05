@@ -137,7 +137,7 @@ const NavBar = ({
             <span className='font-semibold total'>Subtotal: ₹{subTotal}</span>
           </div>
           <div className='flex space-x-5'>
-            <button
+            <button   
               onClick={handleCheckout}
               className='flex h-10 text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'
             >
