@@ -15,6 +15,10 @@ productsInfo:[
     price:{type: Number}
   }],
   address: {type: String, require: true},
+  city:{type: String, default:''},
+  state:{type: String, default:''},
+  phone:{type: Number, default:''},
+  pincode:{type: Number, default:''},
   amount: {type: Number, require: true},
   status: {type: String,default: 'Pending', require: true},
 }, {Timestamps: true });

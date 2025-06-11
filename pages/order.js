@@ -163,11 +163,12 @@ const MyOrder = ({ order }) => {
               Track Order
             </button>
           </div>
-          <img
-            alt="ecommerce"
-            className="lg:w-1/3 m-auto w-full lg:h-auto h-64 object-cover object-center rounded"
-            src="https://dummyimage.com/400x400"
-          />
+<img
+  alt="ecommerce"
+  className="w-[400px] h-[400px] object-cover object-center rounded m-auto"
+  src="https://i.pinimg.com/736x/0a/ef/42/0aef423017fcdce078a864a0d1d50395.jpg"
+/>
+
           
         </div>
       </div>

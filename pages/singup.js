@@ -5,50 +5,79 @@ import {  useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const singup = () => {
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [creadentials, setCredentials] = useState({
+    name: "",
+    email: "",
+    password: "",
+    cpassword: ""
+  });
+
   const pressShow = (e) => {
     e.preventDefault();
-    setShowPassword(!showPassword)
-    }
+    setShowPassword(!showPassword);
+  };
+
   useEffect(() => {
-    if(localStorage.getItem('token')){
-     router.push('/')
+    if (localStorage.getItem('token')) {
+      router.push('/');
     }
-  }, [])
-  const[creadentials, setCredentials] = useState({name:"",email: "", password: "",cpassword:""})
-  const handleSubmit = async (e)=>{
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {name, email, password} = creadentials;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/singup`,{
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({name,email,password})
-    });
-    const json = await response.json()
-    console.log(json);
-    
-   
-  if (json.success){
-           toast.success('Signup successful!', {
-      position: "top-center",
-      autoClose: 3000,
-    });
-    setTimeout(() => {
-      router.push('/login')
-    }, 3000);
-  }else {
-     toast.error(json.error || 'Signup failed. Please try again.', {
+    setLoading(true);
+    const { name, email, password } = creadentials;
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/singup`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      const json = await response.json();
+
+      if (json.success) {
+        toast.success('Signup successful!', {
           position: "top-center",
           autoClose: 3000,
         });
-  }
-  }
-  const handleChange = (e)=>{
-    setCredentials({...creadentials,[e.target.name]: e.target.value})
-}
+        setTimeout(() => {
+          router.push('/login');
+        }, 3000);
+      } else {
+        const msg = json.error;
+         if (response.status === 401) {
+          toast.error("Email is already used", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          toast.error(msg || 'Signup failed. Please try again.', {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      }
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setCredentials({ ...creadentials, [e.target.name]: e.target.value });
+  };
   return (
         <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
          <ToastContainer />

@@ -144,6 +144,9 @@ const orderDetails = {
       price: cart[k].price
     })),
     address,
+    city,
+    instate,
+    pincode,phone,name,
     amount: subTotal,
     status: response.razorpay_payment_id ? 'paid' : 'pending',
     paymentId: response.razorpay_payment_id,

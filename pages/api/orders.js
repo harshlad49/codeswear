@@ -4,7 +4,7 @@ import connectDb from '../../middleware/mongoose';
 const handler = async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const { email, productsInfo, address, amount, status, paymentId, orderId } = req.body;
+      const { email, productsInfo, address, amount, status, paymentId, orderId,instate,city,pincode,phone,name } = req.body;
 
       const orderDetails = new Order({
         email,
@@ -14,6 +14,7 @@ const handler = async (req, res) => {
         status,
         paymentId,
         orderId,
+        instate,city,pincode,phone,name
       });
 
       await orderDetails.save();
