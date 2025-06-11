@@ -4,6 +4,7 @@ import User from "@/models/User";
 var CryptoJS = require("crypto-js");
 
 const handler = async (req, res) => {
+   await cors(req, res, () => {}); 
   if (req.method == 'POST') {
     try {
       let token = req.body.token;

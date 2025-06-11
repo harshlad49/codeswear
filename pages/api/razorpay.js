@@ -2,6 +2,7 @@ import Razorpay from 'razorpay';
 
 
 export default async function handler(req, res) {
+   await cors(req, res, () => {}); 
   if (req.method === 'POST') {
     const instance = new Razorpay({
       key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,

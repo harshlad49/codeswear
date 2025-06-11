@@ -2,6 +2,7 @@ import Product from '@/models/Product';
 import Razorpay from 'razorpay';
 
 export default async function handler(req, res) {
+   await cors(req, res, () => {}); 
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }

@@ -2,7 +2,7 @@ import connectDb from "@/middleware/mongoose";
 import Forgot from "@/models/Forgot";
 import User from "@/models/User";
 export default async function handler(req , res){
-
+ await cors(req, res, () => {}); 
   if(req.body.sendMail) {
  let token = process.env.JWT_email
  let forgot = new Forgot({
