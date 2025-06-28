@@ -6,7 +6,7 @@ const hoodles = ({products}) => {
   return (
     <div className='constainer px-2 sm:m-auto items-center '>
       <section className="text-gray-600 body-font ">
-        <div className=" pl-28 overflow-x-hidden py-10 mx-auto bg-slate-50  ">
+        <div className="  overflow-x-hidden py-10 mx-auto bg-slate-50  ">
           <div className="flex flex-wrap -m-4 items-center justify-center  ">
             {Object.keys(products).length === 0 && <p>Sorry all thr Hoodies are currently out of stock. New stock is coming soon!</p>}
 
