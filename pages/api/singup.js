@@ -7,13 +7,13 @@ const handler = async (req, res) => {
   if (req.method === 'POST') {
     const { name, email, password } = req.body;
 
-    // Check if email already exists
+    
     let existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(401).json({ error: "Email is already registered." });
     }
 
-    // Encrypt password and create new user
+  
     let u = new User({
       name,
       email,

@@ -1,6 +1,7 @@
 import connectDb from "@/middleware/mongoose";
 import jsonwebtoken from "jsonwebtoken";
 import User from "@/models/User";
+import cors from "@/middleware/cors";
 var CryptoJS = require("crypto-js");
 
 const handler = async (req, res) => {

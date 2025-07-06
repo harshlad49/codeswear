@@ -16,9 +16,7 @@ export default function Home() {
     autoplay: true,
     initialSlide:3,
     dots:false
-    // appendDots: (dots) => {
-    //   return <ul style={{ margin: "0px" }}>{dots}</ul>;
-    // },
+
   };
   return (
     <div>
@@ -28,7 +26,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <img src="./1.jpg" className="h-[645px] w-full" /> */}
+     
       <Slider {...settings}>
       {image.map((value, index) => {
         return(

@@ -1,8 +1,8 @@
 import Order from '../../models/Order'; 
 import connectDb from '../../middleware/mongoose';
-
+import cors from "@/middleware/cors";
 const handler = async (req, res) => {
- 
+  await cors(req, res, () => {});
   if (req.method === 'POST') {
     try {
       const { email, productsInfo, address, amount, status, paymentId, orderId,instate,city,pincode,phone,name } = req.body;

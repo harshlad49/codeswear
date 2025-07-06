@@ -1,33 +1,67 @@
 import connectDb from "@/middleware/mongoose";
 import Forgot from "@/models/Forgot";
 import User from "@/models/User";
-export default async function handler(req , res){
+import jwt from "jsonwebtoken";
+import CryptoJS from "crypto-js";
+import cors from "@/middleware/cors";
+const handler = async (req, res) => {
+   await cors(req, res, () => {});
+  if (req.method !== "POST") {
+    return res.status(405).json({ success: false, error: "Only POST method allowed" });
+  }
 
-  if(req.body.sendMail) {
- let token = process.env.JWT_email
- let forgot = new Forgot({
-    email: req.body.email,
-    token: token
- })
+  const { sendEmail, email, password, token } = req.body;
 
- let email = `We have sent you this email in response to your request to reset your password on Codeswear.com 
-
-
-  <br/><br/>
-
-  To reset your password for  please follow the link below:
-
-<a href="https://codeswear.com/forgot?token=${token}">Click here to reset your password</a>
-
-  <br/><br/>
-
-  We recommend that you keep your password secure and not share it with anyone. If you feel your password has been compromised, you can change it by going to your . My Account Page and change your password.
-
+  if (sendEmail) {
   
-  <br/><br/>`
-}else{
-   //Reset User Password
-}
-  res.status(200).json({success: true})
-  
-}
+    try {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ success: false, error: "User not found" });
+      }
+
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      await Forgot.findOneAndUpdate(
+        { email },
+        {
+          userid: user._id.toString(),
+          email,
+          token,
+        },
+        { upsert: true, new: true }
+      );
+
+      
+      // console.log(`🔗 Reset Link: https://yourdomain.com/forgot?token=${token}`);
+
+      return res.status(200).json({ success: true, token });
+    } catch (err) {
+      console.error("Error while sending reset email:", err);
+      return res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+
+  } else {
+   
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findOne({ email: decoded.email });
+
+      if (!user) {
+        return res.status(404).json({ success: false, error: "User not found" });
+      }
+
+      const encryptedPassword = CryptoJS.AES.encrypt(password, process.env.AES_SECRET).toString();
+      user.password = encryptedPassword;
+      await user.save();
+
+      return res.status(200).json({ success: true, message: "Password updated successfully" });
+    } catch (err) {
+      console.error("Error resetting password:", err);
+      return res.status(400).json({ success: false, error: "Invalid or expired token" });
+    }
+  }
+};
+
+export default connectDb(handler);

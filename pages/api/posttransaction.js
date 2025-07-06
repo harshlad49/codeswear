@@ -1,9 +1,9 @@
 import Order from "@/models/Order";
 import connectDb from "@/middleware/mongoose";
 import Product from "@/models/Product";
-
+import cors from "@/middleware/cors";
 const handler = async (req, res) => {
- 
+  await cors(req, res, () => {});
   let order
   if (req.body.STATUS == 'TEN_SUCESS') {
     order = await Order.findOneAndUpdate({ orderId: req.body.ORDERTD }, { status: 'paid', paymentInfo: JSON.stringify(req.body) })
