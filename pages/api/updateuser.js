@@ -2,6 +2,7 @@
 import connectDb from "@/middleware/mongoose";
 import  jsonwebtoken  from "jsonwebtoken";
 import User from "@/models/User";
+import cors from "@/middleware/cors";
 const handler = async (req, res)=> {
   await cors(req, res, () => {});
   if(req.method == 'POST'){

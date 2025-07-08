@@ -12,6 +12,10 @@ const mongoose = require('mongoose');
   instate: {type: String, default: ''},
   pincode: {type: Number, default: ''},
   phone: {type: Number, default: ''},
+  isAdmin: {
+  type: Boolean,
+  default: false
+}
 }, {Timestamps: true });
 mongoose.models = {}
 export default  mongoose.model("User", UserSchema);

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-
+import { useState,useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -55,7 +55,21 @@ const AddProduct = () => {
       setIsSubmitting(false);
     }
   };
-
+ const router = useRouter();
+  const [authorized, setAuthorized] = useState(false);
+  useEffect(() => {
+    try {
+      const decoded = jwt.decode(token);
+      if (!decoded?.isAdmin) {
+        router.push('/'); 
+      } else {
+        setAuthorized(true); 
+      }
+    } catch (err) {
+      router.push('/login');
+    }
+  }, []);
+   if (!authorized) return null;
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6">Add New Product</h1>

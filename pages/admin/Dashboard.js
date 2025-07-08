@@ -1,16 +1,36 @@
-'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import jwt from 'jsonwebtoken';
 
 export default function Dashboard() {
+  const router = useRouter();
+  const [authorized, setAuthorized] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const decoded = jwt.decode(token);
+      if (!decoded?.isAdmin) {
+        router.push('/'); // Redirect non-admins
+      } else {
+        setAuthorized(true); // Admin access granted
+      }
+    } catch (err) {
+      router.push('/login');
+    }
+  }, []);
+
+  if (!authorized) return null; // Or show loading
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-     
-
-    
       <div className="flex flex-col space-y-6">
-       
         <div className="flex flex-col md:flex-row gap-6">
-      
           <div className="bg-white p-5 rounded-lg shadow-sm w-full md:w-64">
             <h2 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Dashboard</h2>
             <ul className="space-y-3">
@@ -22,7 +42,6 @@ export default function Dashboard() {
             </ul>
           </div>
 
-        
           <div className="bg-white p-5 rounded-lg shadow-sm flex-1">
             <h2 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Sales Overview</h2>
             <div className="flex flex-col">
@@ -40,9 +59,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-       
         <div className="flex flex-col md:flex-row gap-6">
-      
           <div className="bg-white p-5 rounded-lg shadow-sm w-full md:w-64">
             <h2 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Get This for Free</h2>
             <ul className="space-y-3">
@@ -54,7 +71,6 @@ export default function Dashboard() {
             </ul>
           </div>
 
-       
           <div className="bg-white p-5 rounded-lg shadow-sm w-full md:w-64">
             <h2 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Daily Activity</h2>
             <ul className="space-y-3">
@@ -66,11 +82,9 @@ export default function Dashboard() {
             </ul>
           </div>
 
-      
           <div className="flex-1"></div>
         </div>
 
-       
         <div className="bg-white p-4 rounded-lg shadow-sm">
           <div className="grid grid-cols-4 gap-4 text-sm text-gray-700 font-medium">
             <span>16</span>

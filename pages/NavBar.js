@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const NavBar = ({
-  logout = () => {},
+  logout = () => {},      
   user = {},
   cart = {},
   addToCart = () => {},
@@ -18,7 +18,7 @@ const NavBar = ({
   subTotal = 0
 }) => {
   const [dropdown, setDropdown] = useState(false)
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(false)
   const router = useRouter()
   const ref = useRef()
 
@@ -36,11 +36,6 @@ const NavBar = ({
     setSidebar(!sidebar)
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('email')
-    router.push('/login')
-  }
 
   const handleCheckout = () => {
     if (user && user.value) {
@@ -76,7 +71,9 @@ const NavBar = ({
                 <ul>
                   <a href={'/myaccount'}><li className='py-1 text-sm hover:text-pink-700'>My Account</li></a>
                   <a href={'/orders'}><li className='py-1 text-sm hover:text-pink-700'>Orders</li></a>
-                  <a onClick={handleLogout}><li className='py-1 text-sm hover:text-pink-700'>Logout</li></a>
+
+                  
+                  <a onClick={logout}><li className='py-1 text-sm hover:text-pink-700'>Logout</li></a>
                 </ul>
               </div>
             )}
@@ -137,7 +134,7 @@ const NavBar = ({
             <span className='font-semibold total'>Subtotal: ₹{subTotal}</span>
           </div>
           <div className='flex space-x-5'>
-            <button   
+            <button
               onClick={handleCheckout}
               className='flex h-10 text-white bg-pink-500 border-0 py-2 px-3 focus:outline-none hover:bg-pink-600 rounded text-sm'
             >

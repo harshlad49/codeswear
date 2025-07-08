@@ -47,6 +47,7 @@ export default function App({ Component, pageProps }) {
   setKey(Math.random())
   router.push('/')
 }
+
   const saveCart = (myCart)=>{
     localStorage.setItem("cart", JSON.stringify(myCart))
       let subt = 0;

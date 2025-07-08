@@ -20,49 +20,56 @@ const Login = () => {
     }
   }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: creadentials.email,
-        password: creadentials.password
-      })
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: creadentials.email,
+      password: creadentials.password
     })
+  });
 
-    const json = await response.json()
-    console.log(json)
+  const json = await response.json();
+  console.log(json);
 
-    if (json.success) {
-      toast.success('Logged in successfully!', {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      })
-      localStorage.setItem('token', json.token)
-       localStorage.setItem('email', creadentials.email);
-      setTimeout(() => {
-        router.push('/')
-      }, 1600) // wait for toast
-    } else {
-      toast.error('Invalid credentials. Please try again.', {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      })
-    }
+  if (json.success) {
+    toast.success('Logged in successfully!', {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    });
+
+    localStorage.setItem('token', json.token);
+    localStorage.setItem('email', creadentials.email);
+
+    setTimeout(() => {
+      if (json.isAdmin) {
+        router.push('/admin/Dashboard');
+      } else {
+        router.push('/');
+      }
+    }, 1600);
+  } else {
+    toast.error('Invalid credentials. Please try again.', {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+    });
   }
+};
+
 
   const handleChange = (e) => {
     setCredentials({ ...creadentials, [e.target.name]: e.target.value })
