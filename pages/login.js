@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { Eye, EyeOff } from 'lucide-react';
 const Login = () => {
   const [creadentials, setCredentials] = useState({ email: "", password: "" })
   const [showPassword, setShowPassword] = useState(false)
@@ -49,7 +49,7 @@ const handleSubmit = async (e) => {
 
     localStorage.setItem('token', json.token);
     localStorage.setItem('email', creadentials.email);
-
+    localStorage.setItem("isAdmin", json.isAdmin);
     setTimeout(() => {
       if (json.isAdmin) {
         router.push('/admin/Dashboard');
@@ -76,7 +76,7 @@ const handleSubmit = async (e) => {
   }
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-16 lg:px-8">
+    <div className="flex min-h-screen flex-col justify-center px-6 py-16 lg:px-8">
       <ToastContainer />
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -126,10 +126,11 @@ const handleSubmit = async (e) => {
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:pl-1 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6"
               />
               <button
+               type="button"
                 onClick={pressShow}
                 className="absolute inset-y-0 right-2 px-2 text-sm font-semibold text-gray-600 hover:text-gray-800 focus:outline-none"
               >
-                {showPassword ? 'Hide' : 'Show'}
+                {showPassword ?  <EyeOff size={18} />  :  <Eye size={18} />}
               </button>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Link from 'next/link';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+ import Auth from './Auth/Auth';
 const myaccount = () => {
   const router = useRouter()
 
@@ -267,4 +268,4 @@ const myaccount = () => {
   )
 }
 
-export default myaccount
+export default Auth(myaccount)

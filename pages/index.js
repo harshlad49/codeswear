@@ -1,25 +1,22 @@
 import Head from "next/head";
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Slider from "react-slick";
 import image from "../lib/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 export default function Home() {
-  const settings = {
-    dots: true,
+   const settings = {
+    dots: false, // disable default dots
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    intiialSlide:0,
-    pauseOnHover:true,
-    autoplay: true,
-    initialSlide:3,
-    dots:false
-
+    beforeChange: (_, next) => setCurrentIndex(next), // update state on slide change
   };
+   const [currentIndex, setCurrentIndex] = useState(0);
+    const sliderRef = useRef(null);
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <Head>
         <title>CodeWare - Ware Fashion</title>
         <meta name="description" content="CodeWare.com - wear the code" />
@@ -27,16 +24,46 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
      
-      <Slider {...settings}>
-      {image.map((value, index) => {
-        return(
-        <div key={index}>
-         {/* <h1>{value.title}</h1>  */}
-       <img src={value.cover} className="h-[645px] w-full" alt="" key={index}></img>
-       </div>
-        )
-        })}
+ <div className="relative">
+      {/* Slider with ref */}
+      <Slider {...settings} ref={sliderRef}>
+        {image.map((value, index) => (
+          <div key={index} className="relative">
+            <img
+              src={value.cover}
+              className="h-[500px] w-full object-cover"
+              alt={value.title || "slider image"}
+            />
+            {value.title && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                <h1 className="text-white text-3xl font-bold drop-shadow-lg text-center px-4">
+                  {value.title}
+                </h1>
+              </div>
+            )}
+          </div>
+        ))}
       </Slider>
+
+      {/* Custom Dots */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+        {image.map((_, index) => (
+          <div
+            key={index}
+            onClick={() => {
+              sliderRef.current?.slickGoTo(index);
+              setCurrentIndex(index);
+            }}
+            className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+              currentIndex === index ? "bg-blue-600" : "bg-blue-300"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+
+
+
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">

@@ -1,3 +1,5 @@
+// /pages/api/signup.js
+
 import User from "@/models/User";
 import connectDb from "@/middleware/mongoose";
 var CryptoJS = require("crypto-js");
@@ -21,7 +23,6 @@ const handler = async (req, res) => {
     });
 
     await u.save();
-
     res.status(200).json({ success: true });
   } else {
     res.status(400).json({ error: "Invalid request method." });

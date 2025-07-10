@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-const AllProductsPage = () => {
+import AuthAdmin from '../Auth/AuthAdmin';
+// import { useRouter } from 'next/navigation';
+const GetProduct = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- const router = useRouter();
-  const [authorized, setAuthorized] = useState(false);
+//  const router = useRouter();
+//   const [authorized, setAuthorized] = useState(false);
   useEffect(() => {
-    try {
-          const decoded = jwt.decode(token);
-          if (!decoded?.isAdmin) {
-            router.push('/'); // Redirect non-admins
-          } else {
-            setAuthorized(true); // Admin access granted
-          }
-        } catch (err) {
-          router.push('/login');
-        }
+    // try {
+    //       const decoded = jwt.decode(token);
+    //       if (!decoded?.isAdmin) {
+    //         router.push('/'); // Redirect non-admins
+    //       } else {
+    //         setAuthorized(true); // Admin access granted
+    //       }
+    //     } catch (err) {
+    //       router.push('/login');
+    //     }
     const fetchProducts = async () => {
       try {
         const response = await fetch('/api/getproducts');
@@ -36,7 +37,7 @@ const AllProductsPage = () => {
     
     fetchProducts();
   }, []);
- if (!authorized) return null;
+//  if (!authorized) return null;
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -105,4 +106,4 @@ const AllProductsPage = () => {
   );
 };
 
-export default AllProductsPage;
+export default AuthAdmin(GetProduct);

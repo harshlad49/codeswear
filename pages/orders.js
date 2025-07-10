@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from 'next/link';
-
+import Auth from './Auth/Auth';
 
 
 const orders = () => {
@@ -83,4 +83,4 @@ const orders = () => {
 }
 
 
-export default orders
+export default Auth(orders)

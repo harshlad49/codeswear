@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import {  useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Eye, EyeOff } from 'lucide-react';
 const singup = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -79,7 +80,7 @@ const singup = () => {
     setCredentials({ ...creadentials, [e.target.name]: e.target.value });
   };
   return (
-        <div className="flex min-h-full flex-col justify-center px-6 py-4 lg:px-8">
+        <div className="flex min-h-screen flex-col justify-center px-6 py-4 lg:px-8">
          <ToastContainer />
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img className="mx-auto h-20 w-auto " src="favicon.ico " alt="Your Company" />
@@ -108,15 +109,30 @@ const singup = () => {
                   <label htmlFor="password"  className="block text-sm font-medium leading-6 text-gray-900">Password</label>
 
                 </div>
-                <div className="mt-2">
-                  <input id="password" placeholder='Password' onChange={handleChange} value={creadentials.password} name="password" type={showPassword ? 'text' : 'password'} minLength={5} required autoComplete="current-password"  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:pl-1  focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6" />
-                  <button
-          onClick={e => pressShow(e)}
-         className="
-           relative
-         bottom-8 md:left-80 left-72
-         focus:text-gray-500 rounded text-sm font-semibold  " >{showPassword ? 'Hide' : 'Show'}</button>
-                </div>
+               <div className="relative w-full">
+  <input
+    id="password"
+    placeholder="Password"
+    onChange={handleChange}
+    value={creadentials.password}
+    name="password"
+    type={showPassword ? 'text' : 'password'}
+    minLength={5}
+    required
+    autoComplete="current-password"
+    className="block w-full rounded-md border-0 py-1.5 pr-10 text-gray-900 shadow-sm 
+               ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:pl-1 
+               focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6"
+  />
+  <button
+    type="button"
+    onClick={pressShow}
+    className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
+  >
+    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+  </button>
+</div>
+
                </div>
 
                <div>

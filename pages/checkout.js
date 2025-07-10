@@ -6,7 +6,7 @@ import Script from 'next/script';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Auth from './Auth/Auth';
 const Checkout = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
   const router = useRouter();
    
@@ -390,4 +390,4 @@ const orderDetails = {
   );
 };
 
-export default Checkout;
+export default Auth(Checkout);

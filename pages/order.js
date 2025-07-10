@@ -101,7 +101,7 @@
 import React from "react";
 import mongoose from "mongoose";
 import Order from "../models/Order";
-
+import Auth from './Auth/Auth';
 const MyOrder = ({ order }) => {
   
   if (!order) {
@@ -210,4 +210,4 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default MyOrder;
+export default Auth(MyOrder);
